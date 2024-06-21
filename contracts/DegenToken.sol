@@ -64,7 +64,6 @@ contract DegenToken is ERC20, Ownable {
     require(balanceOf(msg.sender) >= item.cost, "Insufficient balance"); 
     require(item.owner == address(0), "Item already redeemed");
 
-    // If all conditions are met, burn the tokens and assign ownership of the item to the sender
     _burn(msg.sender, item.cost);
     item.owner = msg.sender;
 
