@@ -8,8 +8,8 @@ describe("DegenToken", function () {
         [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
         DegenToken = await ethers.getContractFactory("DegenToken");
-        degenToken = await DegenToken.deploy(1000000); // Initial supply of 1,000,000 tokens
-        await degenToken.waitForDeployment(); // Use await degenToken.deployed() instead of await degenToken.waitForDeployment();
+        degenToken = await DegenToken.deploy(1000000); 
+        await degenToken.waitForDeployment();
     });
 
     describe("Deployment", function () {
@@ -30,13 +30,11 @@ describe("DegenToken", function () {
 
     describe("Transactions", function () {
         it("Should transfer tokens between accounts", async function () {
-            // Transfer 50 tokens from owner to addr1
             await degenToken.transfer(addr1.address, 50);
             const addr1Balance = await degenToken.balanceOf(addr1.address);
             const decimals = await degenToken.decimals();
             expect(addr1Balance).to.equal(ethers.parseUnits("50", decimals));
 
-            // Transfer 50 tokens from addr1 to addr2
             await degenToken.connect(addr1).transfer(addr2.address, 50);
             const addr2Balance = await degenToken.balanceOf(addr2.address);
             expect(addr2Balance).to.equal(ethers.parseUnits("50", decimals));
@@ -45,13 +43,11 @@ describe("DegenToken", function () {
         it("Should fail if sender doesn’t have enough tokens", async function () {
             const initialOwnerBalance = await degenToken.balanceOf(owner.address);
 
-            // Try to send 1 token from addr1 (0 tokens) to owner (1000000 tokens)
-            // `require` will evaluate false and revert the transaction
+            
             await expect(
                 degenToken.connect(addr1).transfer(owner.address, 1)
             ).to.be.reverted;
 
-            // Owner balance shouldn't have changed.
             expect(await degenToken.balanceOf(owner.address)).to.equal(initialOwnerBalance);
         });
     });
@@ -81,12 +77,12 @@ describe("DegenToken", function () {
         it("Should redeem tokens if enough balance", async function () {
             const decimals = await degenToken.decimals();
             await degenToken.transfer(addr1.address, 100);
-            // Connect to addr1 and redeem the item
-            await degenToken.connect(addr1).redeemItem(2); // Redeem the item
+
+            await degenToken.connect(addr1).redeemItem(2);
       
-            // Check the balance of addr1
+            
             const addr1Balance = await degenToken.balanceOf(addr1.address);
-            expect(addr1Balance).to.equal(ethers.parseUnits("50", decimals)); // Assuming item cost is 50 * 10**18 tokens
+            expect(addr1Balance).to.equal(ethers.parseUnits("50", decimals));
           });
         
     
