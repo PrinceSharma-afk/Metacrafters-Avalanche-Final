@@ -27,7 +27,7 @@ contract DegenToken is ERC20, Ownable {
         _mint(msg.sender, initialSupply * 10 ** decimals());
 
         // Initialize redeemable items
-          items.push(Item("Meele", 200 * 10 ** decimals(), address(0)));
+        items.push(Item("Meele", 200 * 10 ** decimals(), address(0)));
         items.push(Item("Odin", 300 * 10 ** decimals(), address(0)));
         items.push(Item("Vandal", 50 * 10 ** decimals(), address(0)));
         items.push(Item("Spectre", 100 * 10 ** decimals(), address(0)));
@@ -59,10 +59,10 @@ contract DegenToken is ERC20, Ownable {
     }
 
     function redeemItem(uint256 itemId) public {
-    require(itemId < items.length, "Invalid item ID"); // Ensure the item ID is valid
+    require(itemId < items.length, "Invalid item ID");
     Item storage item = items[itemId];
-    require(balanceOf(msg.sender) >= item.cost, "Insufficient balance"); // Check if the sender has enough balance
-    require(item.owner == address(0), "Item already redeemed"); // Ensure the item has not been redeemed before
+    require(balanceOf(msg.sender) >= item.cost, "Insufficient balance"); 
+    require(item.owner == address(0), "Item already redeemed");
 
     // If all conditions are met, burn the tokens and assign ownership of the item to the sender
     _burn(msg.sender, item.cost);
