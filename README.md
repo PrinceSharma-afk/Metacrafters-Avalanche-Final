@@ -1,4 +1,4 @@
-# Project Title
+# DegenToken
 
 A blockchain-based token for a decentralized gaming ecosystem.
 
